@@ -1,24 +1,19 @@
-# README
+# バージョン情報
+- ruby 2.6.6
+- rails 6.0.2.2
+- mysql 5.7
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# セットアップ手順
+```shell script
+docker-compose build
+docker-compose up -d
+docker-compose exec web bundle exec rake db:create
+docker-compose exec web bundle exec rake db:migrate
+docker-compose exec web bundle exec rake db:seed
+docker-compose exec web yarn install
+```
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# webpack起動
+```shell script
+docker-compose exec web ./bin/webpack-dev-server
+```
