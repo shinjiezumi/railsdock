@@ -1,0 +1,23 @@
+ja:
+  activerecord:
+    attributes:
+      # モデル
+      board:
+        name: 名前
+        title: タイトル
+        body: 本文
+      comment:
+        name: 名前
+        comment: コメント
+      user:
+        name: ユーザー名
+        password: パスワード
+        password_confirmation: パスワード（確認）
+  # kaminari（ページネーション用）
+  views:
+    pagination:
+      first: 最初
+      last: 最後
+      previous: 前
+      next: 次
+      truncate: ...

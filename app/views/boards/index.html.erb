@@ -1,0 +1,75 @@
+<div class="d-flex align-items-center">
+  <h1>掲示板一覧</h1>
+
+  <!-- 検索セレクトボックス -->
+  <div class="ml-auto boards__linkBox">
+    <%= form_with url: boards_path, method: :get, class: 'boards__searchForm' do %>
+      <!-- [MEMO] select_tagヘルパでセレクトボックスが作成できる -->
+      <!-- 第一引数：セレクトボックスのname属性 -->
+      <%= select_tag :tag_id,
+          # [MEMO] options_from_collection_for_selectヘルパでoptionが複数作成できる
+          # 第一引数：optionの元になるデータ
+          # 第二引数：optionのvalueに設定される値
+          # 第三引数：optionの表示名
+          # 第四引数：選択状態の初期値。前回の検索時の情報を引き継ぐ場合に指定
+          options_from_collection_for_select(Tag.all, :id, :name, params[:tag_id]),
+          {
+              # セレクトボックスで何も選択されていない場合の表示
+              prompt: 'タグで絞り込み',
+              class: 'form-control boards__select',
+              # onchange時に実行するjavascriptコード
+              onchange: 'submit(this.form);'
+          }
+      %>
+    <% end %>
+  </div>
+
+  <div class="boards__linkBox">
+    <!--
+    [MEMO] link_toヘルパを使用するとリンクを作成してくれる。
+          第一引数:リンク名
+          第二引数：リンク先のURL
+          第三引数：属性に関数するパラメータ
+    -->
+    <%= link_to '新規作成', new_board_path, class: 'btn btn-outline-dark' %>
+  </div>
+</div>
+
+<% if flash[:notice] %>
+  <div class="alert alert-danger">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<table class="table table-hover boards__table">
+  <thead class="thead-dark">
+  <tr>
+    <th>ID</th>
+    <th>タイトル</th>
+    <th>作成者</th>
+    <th>作成日時</th>
+    <th>更新日時</th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @boards.each do |board| %>
+    <tr>
+      <th><%= board.id %></th>
+      <td><%= board.title %></td>
+      <td><%= board.name %></td>
+      <!--[MEMO] :datetime_jpは日本時間表示用の自作フォーマット -->
+      <td><%= board.created_at.to_s(:datetime_jp) %></td>
+      <td><%= board.updated_at.to_s(:datetime_jp) %></td>
+      <!--[MEMO] 第二引数にオブジェクトを指定すると、そのオブジェクトの詳細画面へのリンクが作成される -->
+      <td><%= link_to '詳細', board, class: 'btn btn-outline-dark' %></td>
+      <!--[MEMO] methodを指定するとそのHTTPメソッドで送信される -->
+      <td><%= link_to '削除', board, class: 'btn btn-outline-dark', method: :delete %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<!-- [MEMO] kaminariを入れるとpaginateヘルパーが追加される-->
+<%= paginate @boards %>

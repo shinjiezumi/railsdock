@@ -1,0 +1,27 @@
+<div class="d-flex align-items-center mt-4 mb-4">
+  <div class="ml-auto boards__linkBox">
+    <%= link_to '一覧', boards_path, class: 'btn btn-outline-dark' %>
+    <!--[MEMO] edit_board_pathにオブジェクトを指定すると、その編集リンクを生成してくれる。※省略しても動作した-->
+    <%= link_to '編集', edit_board_path(@board), class: 'btn btn-outline-dark' %>
+  </div>
+</div>
+
+<% if flash[:notice] %>
+  <div class="alert alert-primary">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<!--[MEMO] objectでパーシャルに渡すと、パーシャル名と同名のローカル変数が作成されて渡される-->
+<%= render partial: 'board', object: @board%>
+
+<!--[MEMO] 更に省略することも可能-->
+<%#= render @board%>
+
+<div class="p-comment__list">
+  <div class="p-comment_listTitle">コメント</div>
+  <!--[MEMO] renderの引数に複数のモデルオブジェクトを指定すると、そのモデルのビュー(app/views/comments/_comment.html.erb)が自動的に適用される -->
+  <%= render @board.comments %>
+</div>
+
+<%= render partial: 'comments/form', locals: {comment: @comment} %>

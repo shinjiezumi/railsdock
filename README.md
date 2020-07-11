@@ -10,10 +10,13 @@
     #    command: /bin/bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ```
 
-2. イメージビルドとコンテナ作製
+2. イメージビルドとコンテナ作成
     ```shell script
     docker-compose up -d
     docker-compose exec app yarn install
+    bundle exec rake db:migrate
+    bundle exec rake db:seed
+    bundle exec rake db:migrate RAILS_ENV=test
     ```
 3. `docker-compose.yml`を元に戻す
     ```
