@@ -15,3 +15,8 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+import "bootstrap"
+
+import "../../assets/stylesheets/style.scss"
+import "../../assets/stylesheets/boards.scss"
+import "../../assets/stylesheets/comments.scss"
